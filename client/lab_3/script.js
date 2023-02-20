@@ -49,10 +49,10 @@ function moveToNextSlide() {
   updateSlidePosition(); // this is how you call a function within a function
 }
 function moveToPrevSlide() {
-  if (slidePosition === totalSlides - 1){
-    slidePosition = 0;
+  if (slidePosition === 0){
+    slidePosition = totalSlides - 1;
   } else {
-    slidePosition += 1;
+    slidePosition -= 1;
   }
   // add your code in here for when you click the "prev" button
   /*
