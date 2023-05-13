@@ -5,6 +5,11 @@
 
 /* A quick filter that will return something based on a matching input */
 function filterList(list, query) {
+  return list.filter((item) => {
+    const lowerCaseName = item.name.toLowerCase();
+    const lowerCaseQuery = query.toLowerCase();
+    return lowerCaseName.includes(lowerCaseQuery);
+  })
   /*
     Using the .filter array method, 
     return a list that is filtered by comparing the item name in lower case
@@ -17,6 +22,7 @@ function filterList(list, query) {
 async function mainEvent() { // the async keyword means we can make API requests
   const mainForm = document.querySelector('.main_form'); // This class name needs to be set on your form before you can listen for an event on it
   // Add a querySelector that targets your filter button here
+  const filterButton = document.querySelector('.filter_button');
 
   let currentList = []; // this is "scoped" to the main event function
   
@@ -39,6 +45,8 @@ async function mainEvent() { // the async keyword means we can make API requests
         and is much more convenient than previous data handling methods.
         Here we make a basic GET request to the server using the Fetch method to the county
     */
+        const formData = new FormData(submitEvent.target);
+        const formProps = Object.fromEntries(formData);
 
     // Basic GET request - this replaces the form Action
     const results = await fetch('https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json');
@@ -66,6 +74,15 @@ async function mainEvent() { // the async keyword means we can make API requests
     Fire it here and filter for the word "pizza"
     you should get approximately 46 results
   */
+    filterButton.addEventListener('click', (event) => {
+      console.log('clicked filterButton');
+  
+      const formData = new FormData(mainForm);
+      const formProps = Object.fromEntries(formData);
+      console.log(formProps);
+      const newList = filterList(currentList, formProps.resto);
+      console.log(newList);
+    })
 }
 
 /*
